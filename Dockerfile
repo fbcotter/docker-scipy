@@ -1,5 +1,5 @@
 # Dockerfile with tensorflow gpu support on python3
-FROM tensorflow/tensorflow:1.5.0-devel-gpu-py3
+FROM tensorflow/tensorflow:1.8.0-gpu-py3
 
 MAINTAINER Fergal Cotter <fbc23@cam.ac.uk>
 
@@ -30,7 +30,9 @@ RUN pip3 --no-cache-dir install \
     py3nvml \
     jupyter_contrib_nbextensions \
     sklearn \
-	scikit-image
+	scikit-image \
+    hyperopt \
+    dtcwt
 
 # Install Pytorch
 # RUN pip install http://download.pytorch.org/whl/cu80/torch-0.3.0.post4-cp35-cp35m-linux_x86_64.whl
@@ -50,10 +52,9 @@ COPY jupyter-custom.css /root/.jupyter/custom/custom.css
 # Some code repos to use
 RUN mkdir -p /root/.ssh
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-RUN pip3 install git+https://github.com/fbcotter/dtcwt.git@0.13.1dev1#egg=dtcwt
-RUN pip3 install git+https://github.com/fbcotter/dtcwt_slim.git@0.1.0rc1#egg=dtcwt_slim
-RUN pip3 install git+https://github.com/fbcotter/plotters.git@0.0.6#egg=plotters
-RUN pip3 install git+https://github.com/fbcotter/dataset_loading.git@0.0.3#egg=dataset_loading
-RUN pip3 install git+https://github.com/fbcotter/tf_ops.git@0.1.1#egg=tf_ops
+RUN pip3 install git+https://github.com/fbcotter/dtcwt_slim.git@0.1.0rc2#egg=dtcwt_slim
+RUN pip3 install git+https://github.com/fbcotter/plotters.git@0.0.7#egg=plotters
+RUN pip3 install git+https://github.com/fbcotter/dataset_loading.git@0.0.4#egg=dataset_loading
 
-WORKDIR /host/repos
+RUN mkdir -p /host
+WORKDIR /host
